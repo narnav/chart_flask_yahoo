@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chart Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js library -->
+</head>
+
+<body>
+
+    <div style="width: 500px; height: 300px;"> <!-- Fixed size container for the canvas -->
+        <canvas id="myChart"></canvas>
+    </div>
+    <button id="addDataBtn">Add Data</button> <!-- Button to add data -->
+
+    <script>
+        // Generating an array of 5 random numbers for demonstration
+        var randomData = Array.from({ length: 5 }, () => Math.floor(Math.random() * 100));
+        const charttypes = ["bar", "doughnut", "bubble", "line", "radar", "scatter"];
+        const typech = Math.floor(Math.random() * charttypes.length);
+        console.log(typech);
+        console.log(charttypes[typech]);
+
+        if (charttypes[typech] === "bubble") {
+            randomData = Array.from({ length: 5 }, () => ({
+                x: Math.random() * 100, // x-coordinate
+                y: Math.random() * 100, // y-coordinate
+                r: Math.random() * 20   // radius
+            }));
+        }
+
+        // Getting the context of the canvas
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        // Creating a new Chart instance
+        var myChart = new Chart(ctx, {
+            type: charttypes[typech], // Specify the chart type
+            data: {
+                labels: ['Data 1', 'Data 2', 'Data 3', 'Data 4', 'Data 5'], // Labels for the data
+                datasets: [{
+                    label: 'My First Dataset',
+                    data: randomData, // The random data for the chart
+                    backgroundColor: [ // Different colors for each segment
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)'
+                    ],
+                    borderColor: [ // Border colors for each segment
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true, // Makes the chart responsive
+                maintainAspectRatio: true // Maintains the aspect ratio of the chart
+            }
+        });
+
+        // Function to add data
+        function addData() {
+            if (charttypes[typech] === "bubble") {
+                myChart.data.datasets.forEach((dataset) => {
+                    dataset.data.push({
+                        x: Math.random() * 100,
+                        y: Math.random() * 100,
+                        r: Math.random() * 20
+                    });
+                });
+            } else {
+                myChart.data.labels.push(`Data ${myChart.data.labels.length + 1}`);
+                myChart.data.datasets.forEach((dataset) => {
+                    dataset.data.push(Math.floor(Math.random() * 100));
+                });
+            }
+            myChart.update();
+        }
+
+        document.getElementById('addDataBtn').addEventListener('click', addData);
+    </script>
+
+</body>
+
+</html>

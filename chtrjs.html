@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Combo Bar/Line Chart</title>
+    <!-- Include Chart.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- Canvas element to render the chart -->
+    <canvas id="myComboChart" width="400" height="200"></canvas>
+
+    <!-- Input field and button for user input -->
+    <div>
+        <label for="newDataInput">Enter New Data:</label>
+        <input type="number" id="newDataInput" />
+        <button onclick="addData()">Add Data</button>
+    </div>
+
+    <script>
+        // Sample data for the chart
+        var chartData = {
+            labels: ['January', 'February', 'March', 'April', 'May'],
+            datasets: [{
+                label: 'Bar Dataset',
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                data: [65, 59, 80, 81, 56],
+                type: 'bar'
+            }, {
+                label: 'Line Dataset',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 2,
+                fill: false,
+                data: [28, 48, 40, 19, 86],
+                type: 'line'
+            }]
+        };
+
+        // Get the canvas element
+        var ctx = document.getElementById('myComboChart').getContext('2d');
+
+        // Create a combo chart
+        var myComboChart = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: true
+            }
+        });
+
+        // Function to add data to the chart
+        function addData() {
+            var newData = document.getElementById('newDataInput').value;
+
+            // Convert the input value to a number
+            newData = parseFloat(newData);
+
+            // Check if the conversion was successful
+            if (!isNaN(newData)) {
+                // Add new data to both datasets
+                console.log(newData);
+                chartData.datasets[0].data.push(newData);
+                chartData.datasets[1].data.push(newData);
+                chartData.labels.push("newData")
+                // Update the chart
+                myComboChart.update();
+            } else {
+                alert('Please enter a valid number for the new data.');
+            }
+
+            // Clear the input field
+            document.getElementById('newDataInput').value = '';
+        }
+
+    </script>
+</body>
+
+</html>

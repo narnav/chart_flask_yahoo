@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar Chart with CanvasJS</title>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    <script>
+        const SERVER ="http://127.0.0.1:5000/stock"
+        
+        // Sample data
+        const create_random_data = async() => {
+            myAr =await axios.get(SERVER)
+            console.log(myAr.data[0]);
+
+            for (let index = 0; index < 20; index++) {
+                temp = Math.ceil(Math.random() * 30)
+                dataPoints.push({ label: myAr.data[index]["date"] , y: myAr.data[index]["price"] })
+            }
+            console.log(dataPoints);
+            chart.render();
+        }
+        var dataPoints = [
+            // { label: "Category 1", y: 10 },
+            // { label: "Category 2", y: 25 }
+        ];
+        create_random_data()
+        // Create a new chart
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "light1", // Change the theme if needed
+            animationEnabled: true,
+            title: {
+                text: "Bar Chart Example"
+            },
+            axisY: {
+                title: "Values"
+            },
+            data: [{
+                type: "column",
+                dataPoints: dataPoints
+            }]
+        });
+
+        // Render the chart
+        
+    </script>
+</body>
+</html>

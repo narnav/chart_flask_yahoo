@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar Chart with CanvasJS</title>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+<body>
+    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    <script>
+        // Sample data
+        const create_random_data = () => {
+
+            for (let index = 0; index < 20; index++) {
+                temp = Math.ceil(Math.random() * 30)
+                dataPoints.push({ label: "Category " +temp , y: temp })
+            }
+        }
+        var dataPoints = [
+            { label: "Category 1", y: 10 },
+            { label: "Category 2", y: 25 },
+            { label: "Category 3", y: 30 },
+            { label: "Category 4", y: 15 },
+            { label: "Category 43", y: 5 },
+            { label: "Category 14", y: 25 },
+            { label: "Category 41", y: 13 },
+            { label: "Category 422", y: 11 },
+            { label: "Category 5", y: 20 }
+        ];
+        create_random_data()
+        // Create a new chart
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "light1", // Change the theme if needed
+            animationEnabled: true,
+            title: {
+                text: "Bar Chart Example"
+            },
+            axisY: {
+                title: "Values"
+            },
+            data: [{
+                type: "column",
+                dataPoints: dataPoints
+            }]
+        });
+
+        // Render the chart
+        chart.render();
+    </script>
+</body>
+</html>
